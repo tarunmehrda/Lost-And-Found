@@ -3,7 +3,14 @@
 https://drive.google.com/drive/folders/1GM_tx8qqCALFRPdoppxsrmYFwyMXowzr?usp=drive_link
 
 Welcome to the **Lost & Found App** repository! This app is designed to help users report lost items and find items that others have found. It is built using **Flutter** for the frontend and **Firebase** as the backend. The app is user-friendly, visually appealing, and leverages modern technologies to provide a seamless experience. 🚀
+![Image](https://github.com/user-attachments/assets/96e07eb5-fcd6-4930-a5a8-588e5d810e8a)
 
+![Image](https://github.com/user-attachments/assets/9517db9e-6114-4248-9467-e79badb8a6db)
+![Image](https://github.com/user-attachments/assets/dc6d90c7-27db-404e-8ed0-d0e2a52a4ad5)
+![Image](https://github.com/user-attachments/assets/7e8d002c-d2cd-48ad-9e28-032703acaa97)
+![Image](https://github.com/user-attachments/assets/fea9e194-59e3-4afc-af3a-352fc855ed9d)
+![Image](https://github.com/user-attachments/assets/150a61ad-b496-47bc-a272-f572c7a50401)
+![Image](https://github.com/user-attachments/assets/09c8d896-543d-4e12-8740-16fcbdd09ffc)
 ---
 ## ✨ Features ✨
 ✅ **User Authentication**: Secure login and registration using Firebase Authentication. 🔐  
