@@ -62,12 +62,26 @@ Welcome to the **Lost & Found App** repository! This app is designed to help use
 ## 📂 App Structure
 ```
 lib/
-│── main.dart        # Entry point of the app
-│── screens/         # All UI screens (Home, Post, Details, etc.)
-│── models/          # Data models for items
-│── services/        # Firebase services (Auth, Firestore, Storage)
-│── providers/       # State management using Provider
-│── widgets/         # Reusable UI components
+│── auth/
+│   │── auth.dart
+│   │── login_register.dart
+│── loginpage/
+│   │── loginpage.dart
+│   │── register.dart
+│── textfield/
+│   │── button.dart
+│   │── textfield.dart
+│── screens/
+│   │── splash.dart
+│   │── detail_page.dart
+│   │── homepage.dart
+│   │── post_login_splash_screen.dart
+│── models/
+│── services/
+│── providers/
+│── widgets/
+│── data.dart
+│── main.dart
 ```
 
 ---
