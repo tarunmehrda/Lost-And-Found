@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
 
-class Textfield extends StatefulWidget {
+class Textfield extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
+  final Color? fillColor;
 
   const Textfield({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.obscureText = false,
-  }) : super(key: key);
+    this.hintStyle,
+    this.textStyle,
+    this.fillColor,
+  });
 
-  @override
-  State<Textfield> createState() => _TextfieldState();
-}
-
-class _TextfieldState extends State<Textfield> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller,
-      obscureText: widget.obscureText,
-      
+      controller: controller,
+      obscureText: obscureText,
+      style: textStyle,
       decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: hintStyle,
+        filled: true,
+        fillColor: fillColor,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(color: Colors.grey[700]!),
+          borderRadius: BorderRadius.circular(8),
         ),
-        hintText: widget.hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue),
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );

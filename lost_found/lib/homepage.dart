@@ -181,7 +181,10 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                             ),
                             subtitle: Text(
                               "Posted by: ${item['user_email']}",
-                              style: const TextStyle(color: Colors.white70),
+                              style: const TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12, // Smaller font size for description
+                              ),
                             ),
                             trailing: IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),

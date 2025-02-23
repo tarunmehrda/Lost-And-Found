@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:lost_found/homepage.dart';
 import 'package:lost_found/textfield/button.dart';
 import 'package:lost_found/textfield/textfield.dart';
 
@@ -51,12 +50,13 @@ class _LoginPageState extends State<LoginPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Login Error"),
-        content: Text(message),
+        title: const Text("Login Error", style: TextStyle(color: Colors.white)),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: Colors.grey[900],
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("OK"),
+            child: const Text("OK", style: TextStyle(color: Colors.blue)),
           ),
         ],
       ),
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[900], // Dark background
       body: SafeArea(
         child: Center(
           child: Column(
@@ -75,14 +75,15 @@ class _LoginPageState extends State<LoginPage> {
               const Icon(
                 Icons.lock,
                 size: 100,
-                color: Colors.black54,
+                color: Colors.white70, // Light icon color
               ),
               const SizedBox(height: 25),
               const Text(
-                "Welcome back, you've been missed!",
+                "Welcome to lost and found signin ",
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white70, // Light text color
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -93,6 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                   controller: emailTextController,
                   hintText: 'Email',
                   obscureText: false,
+                  hintStyle: TextStyle(color: Colors.grey[500]), // Hint text color
+                  textStyle: const TextStyle(color: Colors.white), // Input text color
+                  fillColor: Colors.grey[800], // Text field background color
                 ),
               ),
               const SizedBox(height: 10),
@@ -102,22 +106,30 @@ class _LoginPageState extends State<LoginPage> {
                   controller: passwordTextController,
                   hintText: 'Password',
                   obscureText: true,
+                  hintStyle: TextStyle(color: Colors.grey[500]), // Hint text color
+                  textStyle: const TextStyle(color: Colors.white), // Input text color
+                  fillColor: Colors.grey[800], // Text field background color
                 ),
               ),
               const SizedBox(height: 20),
               isLoading
-                  ? const CircularProgressIndicator()
-                  : Button(
-                      text: 'Sign In',
-                      onTap: signIn,
-                    ),
+                  ? const CircularProgressIndicator(color: Colors.white) // Light loading indicator
+                  : Padding(
+                    padding: const EdgeInsets.only(right: 25 , left: 25),
+                    child: Button(
+                        text: 'Sign In',
+                        onTap: signIn,
+                        color: Colors.blue, // Button background color
+                        textColor: Colors.white, // Button text color
+                      ),
+                  ),
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: widget.onTap,
                 child: const Text(
                   "Don't have an account? Register here",
                   style: TextStyle(
-                    color: Colors.blue,
+                    color: Colors.blue, // Link color
                     fontWeight: FontWeight.bold,
                   ),
                 ),

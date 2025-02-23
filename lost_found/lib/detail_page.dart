@@ -13,6 +13,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin {
   late Map<String, dynamic> itemData;
   final TextEditingController commentController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -20,6 +21,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     itemData = widget.item.data() as Map<String, dynamic>;
+    descriptionController.text = itemData['description'] ?? ''; // Initialize description
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -33,62 +35,64 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
   @override
   void dispose() {
     _animationController.dispose();
+    commentController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
   Future<void> markAsFound() async {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        backgroundColor: Colors.grey[850],
-        title: const Text("Mark as Found", style: TextStyle(color: Colors.white)),
-        content: TextField(
-          controller: commentController,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: "Leave a helpful comment...",
-            hintStyle: TextStyle(color: Colors.grey[400]),
-            filled: true,
-            fillColor: Colors.grey[800],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey[850],
+          title: const Text("Mark as Found", style: TextStyle(color: Colors.white)),
+          content: TextField(
+            controller: commentController,
+            style: const TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: "Leave a helpful comment...",
+              hintStyle: TextStyle(color: Colors.grey[400]),
+              filled: true,
+              fillColor: Colors.grey[800],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("Cancel", style: TextStyle(color: Colors.white)),
-          ),
-          TextButton(
-            onPressed: () async {
-              await FirebaseFirestore.instance
-                  .collection("lost_items")
-                  .doc(widget.item.id)
-                  .update({
-                'status': 'found', // Update the status to 'found'
-                'found_comment': commentController.text,
-              });
-              setState(() {
-                itemData['status'] = 'found';
-                itemData['found_comment'] = commentController.text;
-              });
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Item marked as found!")),
-              );
-            },
-            child: const Text("Confirm", style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel", style: TextStyle(color: Colors.white)),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection("lost_items")
+                    .doc(widget.item.id)
+                    .update({
+                  'status': 'found', // Update the status to 'found'
+                  'found_comment': commentController.text,
+                });
+                setState(() {
+                  itemData['status'] = 'found';
+                  itemData['found_comment'] = commentController.text;
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Item marked as found!")),
+                );
+              },
+              child: const Text("Confirm", style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> addComment() async {
     if (commentController.text.isNotEmpty) {
@@ -102,6 +106,23 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
       });
       commentController.clear();
       setState(() {});
+    }
+  }
+
+  Future<void> updateDescription() async {
+    if (descriptionController.text.isNotEmpty) {
+      await FirebaseFirestore.instance
+          .collection("lost_items")
+          .doc(widget.item.id)
+          .update({
+        'description': descriptionController.text,
+      });
+      setState(() {
+        itemData['description'] = descriptionController.text;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Description updated!")),
+      );
     }
   }
 
@@ -149,7 +170,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Description: ${itemData['description']}",
+                        "Description: ${itemData['description'] ?? 'No description provided'}",
                         style: const TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       if (isFound && itemData['found_comment'] != null)
@@ -165,6 +186,42 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            if (!isFound)
+              Column(
+                children: [
+                  TextField(
+                    controller: descriptionController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: "Add or update description...",
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      filled: true,
+                      fillColor: Colors.grey[800],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: updateDescription,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.amber[700],
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "Update Description",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(height: 20),
             if (!isFound)
               Center(
@@ -271,6 +328,7 @@ class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateM
                 ),
               ],
             ),
+            
           ],
         ),
       ),
