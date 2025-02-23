@@ -94,18 +94,50 @@ lib/
 
 ---
 ## 📦 Dependencies (Add to `pubspec.yaml`)
-```yaml
+```name: lost_found
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: latest_version
-  firebase_auth: latest_version
-  cloud_firestore: latest_version
-  firebase_storage: latest_version
-  image_picker: latest_version
-  provider: latest_version # or riverpod
-  fluttertoast: latest_version # for toast messages
-  google_sign_in: latest_version # for Google Sign-In
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.11.0
+  firebase_auth: ^5.4.2
+  cloud_firestore: ^5.6.3
+  intl: ^0.18.0
+  firebase_storage: ^12.4.3
+
+  # lottie: ^3.3.1
+  # flutter_native_splash: ^2.4.5
+  # image_picker: ^1.1.2 # Uncomment if needed
+  # url_launcher: ^6.3.1 # Uncomment if needed
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: "^0.14.3"
+
+flutter_launcher_icons:
+  android:  true
+  ios: true
+  image_path: "images/Lost.png"
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/Lost.png # Ensure your splash screen image is placed here
+
+  # Add flutter_native_splash configuration
+ 
 ```
 
 ---
